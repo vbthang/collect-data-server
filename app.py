@@ -17,12 +17,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin(origins='*')
 def save_body_data():
     data = request.get_json()
-    info = data['info']
-    measurement = data['measurement']
     image = data['image']
+    # del data['image']
 
     try:
         insert_data(app, data)
+        stt = count_docs(app)
+        upload_image(image, stt)
         return jsonify({
             'status': 200,
             'message': 'Data inserted successfully into MongoDB!'
